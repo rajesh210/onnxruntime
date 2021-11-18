@@ -600,5 +600,10 @@ class WindowsEnv : public Env {
 Env& Env::Default() {
   return WindowsEnv::Instance();
 }
-
 }  // namespace onnxruntime
+
+#ifdef USE_MIMALLOC_ARENA_ALLOCATOR
+// Add definition for new/delete
+#include <mimalloc-new-delete.h>
+#endif
+

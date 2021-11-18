@@ -29,10 +29,7 @@ class CPUExecutionProvider : public IExecutionProvider {
       : IExecutionProvider{onnxruntime::kCpuExecutionProvider} {
     bool create_arena = info.create_arena;
 
-#ifdef USE_JEMALLOC
-#if defined(USE_MIMALLOC_ARENA_ALLOCATOR) || defined(USE_MIMALLOC_STL_ALLOCATOR)
-#error jemalloc and mimalloc should not both be enabled
-#endif
+#if defined(USE_JEMALLOC) || defined(USE_MIMALLOC_ARENA_ALLOCATOR)
     //JEMalloc already has memory pool, so just use device allocator.
     create_arena = false;
 #elif !(defined(__amd64__) || defined(_M_AMD64) || defined(__aarch64__) || defined(_M_ARM64))
@@ -40,7 +37,7 @@ class CPUExecutionProvider : public IExecutionProvider {
     create_arena = false;
 #endif
 
-    AllocatorCreationInfo device_info{[](int) { return std::make_unique<TAllocator>(); },
+    AllocatorCreationInfo device_info{[](int) { return std::make_unique<CPUAllocator>(); },
                                       0, create_arena};
 
     InsertAllocator(CreateAllocator(device_info));
