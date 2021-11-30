@@ -18,11 +18,11 @@ endif(NOT PYTHON_INCLUDE_DIR)
 
 # 2. Resolve the installed version of NumPy (for numpy/arrayobject.h).
 if(NOT NUMPY_INCLUDE_DIR)
-  set(NUMPY_NOT_FOUND false)
-  exec_program("${PYTHON_EXECUTABLE}"
-    ARGS "-c \"import numpy; print(numpy.get_include())\""
-    OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
-    RETURN_VALUE NUMPY_NOT_FOUND)
+#  set(NUMPY_NOT_FOUND false)
+#  exec_program("${PYTHON_EXECUTABLE}"
+#    ARGS "-c \"import numpy; print(numpy.get_include())\""
+#    OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
+#    RETURN_VALUE NUMPY_NOT_FOUND)
   if(${NUMPY_NOT_FOUND})
     message(FATAL_ERROR
             "Cannot get NumPy include directory: Is NumPy installed?")
